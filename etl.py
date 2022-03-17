@@ -7,6 +7,19 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+
+    """
+    Description: This function is responsible for extracting data from the song
+    file, transforming it to the correct format, and loading it to both the
+    song table and artist table in sparkifydb.
+
+    Arguments:
+        cur: the cursor object
+        filepath: the path to the song file .json files
+
+    Returns: None
+    """
+
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -20,6 +33,20 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+
+    """
+    Description: This function is responsible for extracting data from the log
+    file, filtering it by the 'NextSong' action, transforming it to the correct
+    format (including converting timestamp to datetime), and loading it to the
+    time, users, and songplays tables in sparkifydb.
+
+    Arguments:
+        cur: the cursor object
+        filepath: the path to the log file .json files
+
+    Returns: None
+    """
+
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -66,6 +93,21 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+
+    """
+    Description: Gets all files from the provided directory with a matching extension,
+    prints the number of files found, and iterates through the files while applying
+    the ETL functions that are defined above.
+
+    Arguments:
+        cur: the cursor object
+        conn: the database connection object
+        filepath: the path to the .json files to be processed
+        func: ETL user defined function to be applied to the .json files
+
+    Returns: None
+    """
+
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -85,6 +127,16 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+
+    """
+    Description: This function is responsible for connecting to sparkifydb and executing
+    the ETL functions defined above for both log files and song files.
+
+    Arguments: None
+
+    Returns: None
+    """
+
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 

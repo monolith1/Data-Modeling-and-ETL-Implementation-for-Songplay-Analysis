@@ -3,9 +3,14 @@ from sql_queries import create_table_queries, drop_table_queries
 
 
 def create_database():
+    
     """
-    - Creates and connects to the sparkifydb
-    - Returns the connection and cursor to sparkifydb
+    Description: This function is responsible for creating, and connecting to, the
+    sparkifydb.
+
+    Arguments: None
+
+    Returns: The connection object and cursor object to sparkifydb
     """
     
     # connect to default database
@@ -28,36 +33,52 @@ def create_database():
 
 
 def drop_tables(cur, conn):
+    
     """
-    Drops each table using the queries in `drop_table_queries` list.
+    Description: Drops tables using the queries in 'drop_table_queries' list
+
+    Arguments:
+        cur: the cursor object
+        conn: the database connection object
+
+    Returns: None
     """
+
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def create_tables(cur, conn):
+
     """
-    Creates each table using the queries in `create_table_queries` list. 
+    Description: Creates tables using the queries in 'create_table_queries' list
+
+    Arguments:
+        cur: the cursor object
+        conn: the database connection object
+
+    Returns: None
     """
+
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
 
 
 def main():
+
     """
-    - Drops (if exists) and Creates the sparkify database. 
+    Description: If sparifydb exists, it is dropped. Creates new instance
+    of sparkifydb. Creates connection and cursor objects for sparkifydb.
+    Drops all tables in sparkifydb, if they exist. Creates new instance
+    of all necessary tables. Finally, closes the connection to the db.
     
-    - Establishes connection with the sparkify database and gets
-    cursor to it.  
-    
-    - Drops all the tables.  
-    
-    - Creates all tables needed. 
-    
-    - Finally, closes the connection. 
+    Arguments: None
+
+    Returns: None
     """
+    
     cur, conn = create_database()
     
     drop_tables(cur, conn)
